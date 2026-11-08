@@ -66,12 +66,14 @@
         if (k > 0) { ctx.save(); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 14; ctx.globalAlpha = .9; ctx.beginPath(); ctx.moveTo(-80, y + 10); ctx.quadraticCurveTo((x - 80) / 2, y + 40, x, y + 10); ctx.stroke(); ctx.restore(); }
         drawImg(te > 1.8 ? 'p7' : 'p0', x, y, 90, { rot: te < 1.8 ? te * 10 : 0 });
         Wn.x = x; Wn.y = y - 60;
-      } else { Wn.x = Wn.sx; Wn.y = Wn.sy - 90; }
+      } else {
+        drawImg(done ? 'p7' : 'p0', 800 + Math.sin(rt * 1.2) * 540, 645 - Math.abs(Math.sin(rt * 6)) * 14, 86, { rot: done ? 0 : rt * 5 });
+        Wn.x = Wn.sx; Wn.y = Wn.sy - 90;
+      }
       if (done) {
         const k = clamp((rt - r.doneAt) / .4);
         drawImg('p43', Wn.sx, Wn.sy - 110, 220, { alpha: .8 });
         charImg(Wn.av, 'win', Wn.sx, Wn.sy, 230 * (.6 + .4 * ease(k)));
-        drawImg('p23', Wn.sx + 120, Wn.sy - 180, 70);
         tagC(Wn.name, Wn.sx, Wn.sy + 24, true);
       }
     },

@@ -46,13 +46,16 @@
     render(r, t) {
       const rt = r.now, te = rt - r.TW, done = r.phase === 'done', f = activeFake(r, rt), D = r.decoy, Wn = r.winner;
       const spinning = rt > r.show + .6 && te < 0;
-      // washing machine
+      // washing machine chugs, hops and roams across the laundry floor
       let mp = 'p1';
-      if (spinning) mp = Math.floor(rt * 4) % 2 ? 'p3' : 'p4';
+      if (spinning) mp = Math.floor(rt * 5) % 2 ? 'p3' : 'p4';
       if (!r.plain && te > 1.2 && te < 1.6) mp = 'p2';
       if (done) mp = 'p5';
-      drawImg(mp, MACH[0], MACH[1], 300, { rot: spinning ? Math.sin(rt * 30) * .02 : 0 });
-      if (spinning) { drawImg('p51', mouth[0] + 10, mouth[1] + 10, 120, { alpha: .6, rot: rt * 8 }); FX.every(r, 'bub', .15, () => FX.bubbles(mouth[0], mouth[1], 1, '#cfefff')); }
+      const mx = MACH[0] - 35 + Math.sin(rt * (spinning ? 3.2 : 1.5)) * (spinning ? 55 : 25);
+      const my = MACH[1] - Math.abs(Math.sin(rt * (spinning ? 12 : 5))) * (spinning ? 24 : 10);
+      const mMouth = [mx - 50, my - 40];
+      drawImg(mp, mx, my, 300, { rot: spinning ? Math.sin(rt * 22) * .085 : Math.sin(rt * 4) * .025 });
+      if (spinning) { drawImg('p51', mMouth[0] + 10, mMouth[1] + 10, 125, { alpha: .7, rot: rt * 10 }); FX.every(r, 'bub', .12, () => FX.bubbles(mMouth[0], mMouth[1], 2, '#cfefff')); }
       for (const p of r.players) {
         if (done && p === Wn) continue;
         let pose = rt < r.show ? 'observe' : rt < r.show + 1 ? 'load' : 'mixing';
@@ -60,24 +63,28 @@
         if (p === D && te > 0) pose = !r.plain && te > .7 ? 'mismatch' : 'search';
         if (p === Wn && te > (r.plain ? 1.2 : 1.5)) pose = 'lost';
         charImg(p.av, pose, p.sx, p.sy, 150);
-        // the sock each student still holds
-        drawImg(p.sock, p.sx + 54, p.sy - 70, 40, { rot: .2 });
-        if (rt < r.show) drawImg(p.sock, p.sx + 76, p.sy - 64, 40, { rot: .35 });
+        // sock flies into the washer during the load phase; small badge on mat otherwise
+        if (rt >= r.show && rt < r.show + .85) {
+          const lk = ease(clamp((rt - r.show) / .8)), [sx, sy] = arc([p.sx + 20, p.sy - 80], mMouth, lk, 110);
+          drawImg(p.sock, sx, sy, 38, { rot: lk * 10, alpha: 1 - lk * .3 });
+        } else {
+          drawImg(p.sock, p.sx + 48, p.sy - 14, 26, { rot: .15 });
+        }
         tagC(p.name, p.sx, p.sy + 22, (f && f.p === p && te < 0) || (p === Wn && te > 1.5));
       }
       // practice socks flying out and bouncing back into the machine
       if (f && te < 0) {
-        const k = clamp((rt - f.at) / f.dur), [x, y] = arc(mouth, [f.p.sx + 54, f.p.sy - 120], k < .6 ? k / .6 : 1 - (k - .6) / .4, 140);
+        const k = clamp((rt - f.at) / f.dur), [x, y] = arc(mMouth, [f.p.sx + 44, f.p.sy - 110], k < .6 ? k / .6 : 1 - (k - .6) / .4, 140);
         drawImg(f.p.sock, x, y, 44, { rot: rt * 8 });
       }
       // the decoy's wrong sock and the winner's lost sock
       if (te > 0 && !done) {
         const tgt = D || Wn;
-        if (te < (r.plain ? 1.2 : 1.6)) { const [x, y] = arc(mouth, [tgt.sx + 76, tgt.sy - 64], clamp(te / .6), 160); drawImg(r.plain ? Wn.sock : SOCKS[(SOCKS.indexOf(tgt.sock) + 5) % 10], x, y, 44, { rot: te < .6 ? te * 12 : .35 }); }
+        if (te < (r.plain ? 1.2 : 1.6)) { const [x, y] = arc(mMouth, [tgt.sx + 56, tgt.sy - 64], clamp(te / .6), 160); drawImg(r.plain ? Wn.sock : SOCKS[(SOCKS.indexOf(tgt.sock) + 5) % 10], x, y, 44, { rot: te < .6 ? te * 12 : .35 }); }
         if (!r.plain && te > .7 && te < 1.6) drawImg('p28', tgt.sx, tgt.sy - 200, 60);
         if (te > (r.plain ? 1.2 : 1.5)) {
-          const from = r.plain ? [tgt.sx + 76, tgt.sy - 64] : [MACH[0] + 110, MACH[1] - 60];
-          const k = ease(clamp((te - (r.plain ? 1.2 : 1.5)) / 1.1)), [x, y] = arc(from, [Wn.sx + 76, Wn.sy - 64], k, 220);
+          const from = r.plain ? [tgt.sx + 56, tgt.sy - 64] : [mx + 90, my - 60];
+          const k = ease(clamp((te - (r.plain ? 1.2 : 1.5)) / 1.1)), [x, y] = arc(from, [Wn.sx + 56, Wn.sy - 64], k, 220);
           drawImg(Wn.sock, x, y, 50, { rot: (1 - k) * 14 }); FX.every(r, 'st', .05, () => FX.glitter(x, y, 1));
           Wn.x = x; Wn.y = y;
         }
@@ -85,15 +92,17 @@
       if (done) {
         const k = clamp((rt - r.doneAt) / .4);
         charImg(Wn.av, 'win', Wn.sx, Wn.sy, 220 * (.6 + .4 * ease(k)));
-        drawImg('p28', Wn.sx + 110, Wn.sy - 200, 80);
+        drawImg(Wn.sock, Wn.sx + 74, Wn.sy - 90, 52, { rot: .2 });
         tagC(Wn.name, Wn.sx, Wn.sy + 24, true);
       }
     },
 
     idle(t) {
-      drawImg(Math.floor(t * 3) % 2 ? 'p3' : 'p4', MACH[0], MACH[1], 300, { rot: Math.sin(t * 30) * .02 });
-      SPOTS.forEach(([x, y], i) => { charImg(i, 'observe', x, y, 150); drawImg(SOCKS[i], x + 54, y - 70, 40, { rot: .2 }); });
-      for (let i = 0; i < 3; i++) { const k = (t * .5 + i / 3) % 1; drawImg(SOCKS[(Math.floor(t * .5) + i) % 10], ...arc(mouth, [300 + i * 350, 200], k, 120), 40, { rot: t * 6 + i, alpha: 1 - k }); }
+      const mx = MACH[0] - 35 + Math.sin(t * 2.4) * 45, my = MACH[1] - Math.abs(Math.sin(t * 9)) * 18, mMouth = [mx - 50, my - 40];
+      drawImg(Math.floor(t * 4) % 2 ? 'p3' : 'p4', mx, my, 300, { rot: Math.sin(t * 18) * .07 });
+      drawImg('p51', mMouth[0] + 10, mMouth[1] + 10, 115, { alpha: .55, rot: t * 8 });
+      SPOTS.forEach(([x, y], i) => { charImg(i, 'observe', x, y, 150); drawImg(SOCKS[i], x + 48, y - 14, 26, { rot: .15 }); });
+      for (let i = 0; i < 3; i++) { const k = (t * .5 + i / 3) % 1; drawImg(SOCKS[(Math.floor(t * .5) + i) % 10], ...arc(mMouth, [300 + i * 350, 200], k, 120), 40, { rot: t * 6 + i, alpha: 1 - k }); }
     },
     onFinish(r) { FX.bubbles(r.winner.sx, r.winner.sy - 100, 24, '#cfefff'); },
     winBanner: r => '🧦 ' + r.winner.name + "'s sock found its partner!",

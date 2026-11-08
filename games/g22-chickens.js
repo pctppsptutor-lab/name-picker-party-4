@@ -54,12 +54,12 @@
       ctx.save(); ctx.strokeStyle = '#c9c9d9'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(BALL[0], 0); ctx.lineTo(BALL[0], BALL[1] - 40); ctx.stroke(); ctx.restore();
       if (dancing) FX.halo(...BALL, 120 * (1 + (1 - beatK) * .3), COLORS[b % 5], .45);
       drawImg('p31', BALL[0], BALL[1], 90, { rot: rt * .8 });
-      // DJ chicken shows the routine
+      // DJ chicken dances across the booth showing the routine
       let dj = 'p13';
       if (dancing && !copy) dj = ['p0', 'p1', 'p3'][b % 3];
       if (!r.plain && te > .9 && te < 1.8) dj = 'p7';
       if (done) dj = 'p8';
-      drawImg(dj, DJ[0], DJ[1], 170);
+      drawImg(dj, DJ[0] + Math.sin(rt * 1.8) * 140, DJ[1] - Math.abs(Math.sin(rt / BEAT * Math.PI)) * 16, 170, { rot: Math.sin(rt * 5) * .06 });
       drawImg('p34', 1450, 420, 160);
       const [sx, sy, sa] = done ? [Wn.sx, Wn.sy - 40, 1] : this.spotAt(r, rt);
       spot(sx, sy, sa);
@@ -87,7 +87,7 @@
     idle(t) {
       FX.halo(...BALL, 120, COLORS[Math.floor(t / BEAT) % 5], .45);
       drawImg('p31', BALL[0], BALL[1], 90, { rot: t * .8 });
-      drawImg(['p0', 'p1', 'p3'][Math.floor(t / BEAT) % 3], DJ[0], DJ[1], 170);
+      drawImg(['p0', 'p1', 'p3'][Math.floor(t / BEAT) % 3], DJ[0] + Math.sin(t * 1.7) * 130, DJ[1] - Math.abs(Math.sin(t / BEAT * Math.PI)) * 14, 170, { rot: Math.sin(t * 5) * .05 });
       drawImg('p34', 1450, 420, 160);
       spot(800 + Math.sin(t * 1.2) * 520, 680 + Math.sin(t * 2.3) * 130, .5);
       SPOTS.forEach(([x, y], i) => charImg(i, Math.floor(t / BEAT) % 2 ? 'wing' : 'side', x, y, kidH(y)));

@@ -83,7 +83,7 @@
         charImg(p.av, pose, x, y + 10, 82);
         tagC(p.name, x - 92, y - 10, (r.leader === p && te < 0) || (p === Wn && te > 1.8));
       }
-      drawImg(done ? 'p1' : 'p0', 1500, 260, 120, { anchor: 'bottom' });
+      drawImg(done || Math.floor(rt * 3) % 2 ? 'p1' : 'p0', 1465 + Math.sin(rt * 1.7) * 45, 270 + Math.cos(rt * 1.4) * 55 - Math.abs(Math.sin(rt * 6.5)) * 22, 120, { anchor: 'bottom', flip: Math.cos(rt * 1.7) > 0 });
       if (done) {
         const k = clamp((rt - r.doneAt) / .4);
         charImg(Wn.av, 'win', GOLD[0], GOLD[1] + 20, 180 * (.6 + .4 * ease(k)));
@@ -95,7 +95,7 @@
       for (let l = 0; l < 10; l++) for (let i = 0; i < N; i++) drawImg(PADS[(i + l) % 5], X0 + i * STEP + Math.sin(t * .8 + i + l) * 10, laneY(l, 10) + 14, 92);
       drawImg('p16', GOLD[0], GOLD[1] + 14, 130); drawImg('p17', GOLD[0] + 40, GOLD[1] - 10, 60);
       for (let l = 0; l < 10; l++) { const u = (t * .6 + l * .37) % N, i = Math.floor(u); charImg(l, 'idle', X0 + i * STEP, laneY(l, 10) + 10, 82); }
-      drawImg('p0', 1500, 260, 120, { anchor: 'bottom' });
+      drawImg(Math.floor(t * 2.5) % 2 ? 'p1' : 'p0', 1465 + Math.sin(t * 1.6) * 45, 270 + Math.cos(t * 1.3) * 50 - Math.abs(Math.sin(t * 6)) * 20, 120, { anchor: 'bottom' });
     },
     onFinish() { FX.splash(GOLD[0], GOLD[1], 30); FX.sparkle(GOLD[0], GOLD[1] - 100, 30); },
     winBanner: r => '👑 ' + r.winner.name + ' lands on the golden pad!',

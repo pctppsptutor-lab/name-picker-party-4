@@ -67,10 +67,10 @@
         const k = ease(clamp((te - 1.1) / .7)), x = lerp(D.bx, Wn.bx, k) + Math.sin(te * 40) * 6, y = lerp(D.by, Wn.by, k) - 20;
         FX.halo(x, y, 18, '#ff3b3b', .95); FX.every(r, 'laz', .04, () => FX.glitter(x, y, 1, ['#ff6f6f']));
       }
-      drawImg('p0', BOSS[0], BOSS[1], 170, { anchor: 'bottom' });
+      // boss cat patrols around the boxes
+      drawImg('p0', BOSS[0] - 40 + Math.sin(rt * 1.5) * 65, BOSS[1] + Math.cos(rt * 1.8) * 85 - Math.abs(Math.sin(rt * 6)) * 14, 170, { anchor: 'bottom', flip: Math.cos(rt * 1.5) > 0 });
       if (done) {
         const k = clamp((rt - r.doneAt) / .4);
-        drawImg('p20', Wn.bx + 110, Wn.by - 170, 70);
         charImg(Wn.av, 'win', Wn.bx, Wn.by - 20, 200 * (.6 + .4 * ease(k)));
       }
     },
@@ -78,7 +78,7 @@
     idle(t) {
       BOXES.forEach(([x, y], i) => drawImg(BOX_IMG[i], x, y, 140, { anchor: 'bottom' }));
       for (let i = 0; i < 10; i++) { const a = t * (.7 + i * .05) + i; charImg(i, 'idle', 800 + Math.cos(a) * 520, 620 + Math.sin(a * 1.7) * 190, 110); }
-      drawImg('p0', BOSS[0], BOSS[1], 170, { anchor: 'bottom' });
+      drawImg('p0', BOSS[0] - 40 + Math.sin(t * 1.4) * 65, BOSS[1] + Math.cos(t * 1.7) * 80 - Math.abs(Math.sin(t * 5.5)) * 12, 170, { anchor: 'bottom', flip: Math.cos(t * 1.4) > 0 });
     },
     onFinish(r) { FX.sparkle(r.winner.bx, r.winner.by - 150, 34, ['#ff9fc4', '#ffd84a', '#ffffff']); },
     winBanner: r => '🐈 ' + r.winner.name + ' pops out of the box!',

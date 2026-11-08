@@ -93,11 +93,11 @@
       for (const run of r.runs) { const k = (rt - run.at) / run.dur; if (k >= 0 && k <= 1) { const [x, y] = along(toParcel(run.to), k); ctx.save(); ctx.fillStyle = '#ff9f43'; ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.fill(); ctx.restore(); } }
       const b = !done && this.ball(r, rt);
       if (b) { FX.halo(b[0], b[1], 28, '#ffd84a', .6); ctx.save(); ctx.fillStyle = '#ffdf5a'; ctx.beginPath(); ctx.arc(b[0], b[1], 14, 0, Math.PI * 2); ctx.fill(); ctx.restore(); FX.every(r, 'tr', .05, () => FX.glitter(b[0], b[1], 1)); }
-      // parrot
-      let pp = 'parrot0', px = 1000, py = 160;
-      if (!r.plain && te > .8 && te < 2.2) { pp = 'parrot1'; const k = ease(clamp((te - .8) / .3)); px = lerp(1000, WHEEL[0] + 40, k); py = lerp(160, WHEEL[1] - 70, k); }
+      // parrot swoops over the contraption and spins the spare wheel
+      let pp = Math.floor(rt * 5) % 2 ? 'parrot0' : 'parrot1', px = 880 + Math.sin(rt * 1.5) * 190, py = 175 + Math.sin(rt * 3) * 38;
+      if (!r.plain && te > .8 && te < 2.2) { pp = 'parrot1'; const k = ease(clamp((te - .8) / .3)); px = lerp(px, WHEEL[0] + 40, k); py = lerp(py, WHEEL[1] - 70, k); }
       if (done) pp = 'parrot2';
-      drawImg(pp, px, py + Math.sin(rt * 4) * 5, 100);
+      drawImg(pp, px, py + Math.sin(rt * 4) * 5, 100, { flip: Math.cos(rt * 1.5) > 0 && te < .8 });
       // pirate crew
       for (const p of r.players) {
         if (done && p === Wn) continue;
@@ -123,7 +123,7 @@
       drawImg('p12', CANNON[0], CANNON[1], 150);
       PARCELS.forEach(([x, y], i) => drawImg(BOXES[i % 5], x, y + 30, 80, { anchor: 'bottom' }));
       const k = (t * .4) % 1, [x, y] = along(toParcel(Math.floor(t * .4) % 10), k); ctx.save(); ctx.fillStyle = '#ff9f43'; ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-      drawImg('parrot0', 1000, 160 + Math.sin(t * 4) * 5, 100);
+      drawImg(Math.floor(t * 5) % 2 ? 'parrot0' : 'parrot1', 880 + Math.sin(t * 1.5) * 190, 175 + Math.sin(t * 3) * 36, 100, { flip: Math.cos(t * 1.5) > 0 });
       PIRATES.forEach(([x2, y2], i) => charImg(i, 'aim', x2, y2, 120));
     },
     onFinish(r) { FX.coins(...PARCELS[r.winner.parcel], 24, PARCELS[r.winner.parcel][1] + 60); },
