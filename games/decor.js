@@ -1,7 +1,7 @@
 // Extra decoration and depth for every code-drawn background, painted once on top of the base scene.
 // DECOR.paint(g, id) adds three things:
 //   1. a lighting pass: light from the top-left, darker floor towards the viewer, a soft haze on the far horizon;
-//   2. game-specific decorations (bunting, plants, lamps, posters, pebbles, shelves…) placed around the play area;
+//   2. game-specific decorations (bunting, plants, lamps, posters, pebbles, shelves, vines, banners, shrubs…) around the play area;
 //   3. fine paper grain so flat fills read as painted surfaces.
 const DECOR = (() => {
   const W = 1600, H = 900, TAU = Math.PI * 2;
@@ -71,6 +71,43 @@ const DECOR = (() => {
   function cobweb(x, y, s, flip) { g.save(); g.translate(x, y); g.scale(flip ? -s : s, s); g.strokeStyle = '#ffffff33'; g.lineWidth = 1.5; for (let i = 0; i < 6; i++) { const a = i * Math.PI / 10; g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * 120, Math.sin(a) * 120); g.stroke(); } for (let r = 25; r < 120; r += 22) { g.beginPath(); for (let i = 0; i < 6; i++) { const a = i * Math.PI / 10; g.lineTo(Math.cos(a) * r, Math.sin(a) * r); } g.stroke(); } g.restore(); }
   function coins(x, y, n) { for (let i = 0; i < n; i++) { const cx = x + (rnd() - .5) * 90, cy = y + (rnd() - .5) * 18; ell(cx, cy + 2, 9, 4, '#00000033'); ell(cx, cy, 9, 5, '#d99a00'); ell(cx, cy - 1, 7, 3.5, '#ffd84a'); } }
   function sign(x, y, col, text) { withShadow(() => { g.fillStyle = '#7a4a24'; g.fillRect(x - 4, y - 70, 8, 70); rr(x - 46, y - 104, 92, 40, 8); g.fillStyle = col; g.fill(); }); g.fillStyle = '#ffffff'; g.font = '700 20px "Fredoka","Baloo 2",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, x, y - 83); }
+  function vine(x, y0, len, flip = false, col = '#2f8f45') {
+    const dir = flip ? -1 : 1;
+    g.save(); g.strokeStyle = '#256b34'; g.lineWidth = 3.5; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(x, y0); g.quadraticCurveTo(x + 18 * dir, y0 + len * .5, x + 6 * dir, y0 + len); g.stroke();
+    for (let i = 1; i <= 5; i++) {
+      const u = i / 5.5, lx = x + Math.sin(u * Math.PI) * 14 * dir, ly = y0 + u * len, s = (1 - u * .3) * 14, side = (i % 2 ? 1 : -1) * dir;
+      g.save(); g.translate(lx, ly); g.rotate(side * .6); g.fillStyle = i % 2 ? col : '#49b35e';
+      g.beginPath(); g.moveTo(0, 0); g.quadraticCurveTo(s * side, -s * .4, s * 1.4 * side, s * .2); g.quadraticCurveTo(s * .6 * side, s * .7, 0, 0); g.fill(); g.restore();
+    }
+    g.restore();
+  }
+  function bannerFlag(x, y, w, h, col, trim = '#ffd84a') {
+    withShadow(() => {
+      g.fillStyle = col; g.beginPath(); g.moveTo(x - w / 2, y); g.lineTo(x + w / 2, y); g.lineTo(x + w / 2, y + h); g.lineTo(x, y + h - 18); g.lineTo(x - w / 2, y + h); g.closePath(); g.fill();
+      g.strokeStyle = trim; g.lineWidth = 3; g.stroke();
+    }, 8, 4, .24);
+    ell(x, y + h * .42, w * .18, w * .18, trim);
+  }
+  function bushCluster(x, y, s = 1, col = '#3b9647', berry = '#ff6f8f') {
+    withShadow(() => {
+      [[-28, 4, 24], [0, -6, 30], [26, 5, 22]].forEach(([dx, dy, r], i) => ell(x + dx * s, y + dy * s, r * s, r * .8 * s, i === 1 ? '#48ab55' : col));
+    }, 8, 4, .22);
+    [[-16, -2], [4, -12], [18, 0], [-4, 4]].forEach(([dx, dy], i) => ell(x + dx * s, y + dy * s, 4 * s, 4 * s, i % 2 ? berry : '#ffd84a'));
+  }
+  function floorGlow(x, y, rx, ry, col = '#ffe89e') {
+    g.save(); g.globalCompositeOperation = 'lighter';
+    g.fillStyle = rad(x, y, 4, Math.max(rx, ry), [[0, shade(col, .35)], [1, shade(col, 0)]]);
+    g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, TAU); g.fill(); g.restore();
+  }
+  function booksStack(x, y, s = 1) {
+    const cols = ['#e05263', '#3b82f6', '#f59e0b', '#8b5cf6'];
+    for (let i = 0; i < 4; i++) {
+      const w = (54 - i * 4) * s, h = 11 * s, ox = ((i % 2) * 4 - 2) * s, by = y - (i + 1) * h;
+      withShadow(() => { rr(x - w / 2 + ox, by, w, h, 3); g.fillStyle = cols[i]; g.fill(); }, 4, 2, .18);
+      g.fillStyle = '#fff8ea'; g.fillRect(x - w / 2 + ox + 4 * s, by + 2 * s, w - 10 * s, h - 4 * s);
+    }
+  }
 
   // ---------- lighting and texture ----------
   function lighting(floorY, warm = '#fff6dc', cool = '#1c2550') {
@@ -94,6 +131,12 @@ const DECOR = (() => {
   // ---------- per-game decoration lists ----------
   const PARTY = ['#ff6f8f', '#ffd84a', '#7cd0ff', '#7cff9b', '#b48cff'];
   const GAME = {
+    g19: { floor: 400, fn() { [[1450, 880], [150, 880]].forEach(([x, y]) => pot(x, y, .8)); shelf(180, 190, 240, [[40, '#7cd0ff', 'jar'], [110, '#ff9fc4', 'ball'], [180, '#ffd84a', 'jar']]); poster(1260, 230, 90, 120, '#7cd0ff', '#ffffff'); rug(800, 830, 250, 38, '#5aa9e6', '#ffffff'); sparkles(48, [0, 400, 1600, 500], '#ffffff'); stringLights(0, 20, 1200, 20, 30, ['#ffffff', '#7cd0ff']); } },
+    g20: { floor: 400, fn() { bunting(0, 20, 600, 20, 30, PARTY); bunting(1000, 20, 1600, 20, 30, PARTY); stringLights(200, 15, 1400, 15, 36, ['#ffd84a', '#ff9fc4']); [[300, 880], [1250, 880]].forEach(([x, y]) => { ell(x, y, 26, 26, '#ff6f8f'); ell(x + 50, y + 4, 20, 20, '#7cd0ff'); }); booksStack(140, 860, 1.1); [[60, 400], [1540, 400]].forEach(([x, y]) => pot(x, y, .8)); } },
+    g21: { floor: 380, fn() { stringLights(0, 120, 1600, 120, 30, ['#ffd84a', '#ff9fc4', '#ffffff']); bannerFlag(200, 20, 50, 96, '#5a3a86', '#ffd84a'); bannerFlag(1400, 20, 50, 96, '#5a3a86', '#ffd84a'); [[100, 880], [1500, 880]].forEach(([x, y]) => lamp(x, y, '#ffd84a', '#3a2a5a', 220)); cobweb(0, 0, 1.1, false); cobweb(1600, 0, 1.1, true); sparkles(48, [200, 120, 1200, 260], '#ffffff'); } },
+    g22: { floor: 440, fn() { stringLights(0, 200, 1600, 200, 40, ['#ff6fae', '#ffd84a', '#7cf7ff', '#7cff9b']); bunting(120, 20, 1480, 20, 36, PARTY); [[60, 440], [1540, 440]].forEach(([x, y]) => { for (let k = 0; k < 6; k++) ell(x + (k - 3) * 10, y - 10 - k * 4, 6, 3, '#ffd84a'); }); poster(1320, 230, 100, 120, '#ff6fae', '#ffd84a'); poster(180, 230, 100, 120, '#7cd0ff', '#ffd84a'); floorGlow(800, 680, 260, 60, '#ffd84a'); } },
+    g23: { floor: 250, fn() { vine(80, 0, 130, false); vine(1520, 0, 130, true); [[300, 880], [900, 880], [1400, 880]].forEach(([x, y]) => pebbles(x, y, 8)); bushCluster(360, 245, .95); bushCluster(1140, 245, .95, '#3b9647', '#ff9fc4'); flowerBed(0, 250, 300, ['#ff9fc4', '#ffffff']); flowerBed(1200, 250, 300, ['#ffd34d', '#ffffff']); sparkles(40, [0, 260, 1600, 600], '#ffffff'); } },
+    g24: { floor: 760, fn() { bunting(1120, 100, 1450, 100, 30, ['#ff6f6f', '#ffffff', '#1c2550']); bunting(140, 90, 520, 110, 28, ['#ffd84a', '#ff6f6f', '#ffffff']); [[200, 760], [600, 760], [1000, 760]].forEach(([x, y]) => crate(x, y, .5)); coins(700, 880, 14); coins(1180, 860, 12); sparkles(45, [0, 300, 1100, 400], '#ffffff'); } },
   };
 
   return {
