@@ -94,12 +94,6 @@ const DECOR = (() => {
   // ---------- per-game decoration lists ----------
   const PARTY = ['#ff6f8f', '#ffd84a', '#7cd0ff', '#7cff9b', '#b48cff'];
   const GAME = {
-    g19: { floor: 400, fn() { [[1450, 880], [150, 880]].forEach(([x, y]) => pot(x, y, .8)); poster(1260, 230, 90, 120, '#7cd0ff', '#ffffff'); sparkles(40, [0, 400, 1600, 500], '#ffffff'); stringLights(0, 20, 1200, 20, 30, ['#ffffff', '#7cd0ff']); } },
-    g20: { floor: 400, fn() { bunting(0, 20, 600, 20, 30, PARTY); bunting(1000, 20, 1600, 20, 30, PARTY); [[300, 880], [1250, 880]].forEach(([x, y]) => { ell(x, y, 26, 26, '#ff6f8f'); ell(x + 50, y + 4, 20, 20, '#7cd0ff'); }); [[60, 400], [1540, 400]].forEach(([x, y]) => pot(x, y, .8)); } },
-    g21: { floor: 380, fn() { stringLights(0, 120, 1600, 120, 30, ['#ffd84a', '#ff9fc4', '#ffffff']); [[100, 880], [1500, 880]].forEach(([x, y]) => lamp(x, y, '#ffd84a', '#3a2a5a', 220)); sparkles(40, [200, 120, 1200, 260], '#ffffff'); } },
-    g22: { floor: 440, fn() { stringLights(0, 200, 1600, 200, 40, ['#ff6fae', '#ffd84a', '#7cf7ff', '#7cff9b']); [[60, 440], [1540, 440]].forEach(([x, y]) => { for (let k = 0; k < 6; k++) ell(x + (k - 3) * 10, y - 10 - k * 4, 6, 3, '#ffd84a'); }); poster(1320, 230, 100, 120, '#ff6fae', '#ffd84a'); } },
-    g23: { floor: 250, fn() { [[300, 880], [900, 880], [1400, 880]].forEach(([x, y]) => pebbles(x, y, 6)); flowerBed(0, 250, 300, ['#ff9fc4', '#ffffff']); flowerBed(1200, 250, 300, ['#ffd34d', '#ffffff']); sparkles(30, [0, 260, 1600, 600], '#ffffff'); } },
-    g24: { floor: 760, fn() { bunting(1120, 100, 1450, 100, 30, ['#ff6f6f', '#ffffff', '#1c2550']); [[200, 760], [600, 760], [1000, 760]].forEach(([x, y]) => crate(x, y, .5)); coins(700, 880, 10); sparkles(40, [0, 300, 1100, 400], '#ffffff'); } },
   };
 
   return {
