@@ -1,4 +1,4 @@
-// Game 19 — Sock-Eating Washer (matching & memory)
+﻿// Game 19 â€” Sock-Eating Washer (matching & memory)
 // Everyone shows their pair of socks, drops one in the washing machine, and the machine mixes them up and spits them out.
 // The student whose missing sock flies back to them is picked.
 // Twist: the first sock back is the same colour but the wrong pattern; the lost sock bursts out of the machine's sleeve and matches the real winner.
@@ -14,9 +14,8 @@
 
   GAME_IMPL.g19 = {
     id: 'g19', title: 'Sock-Eating Washer', base: 'assets/g19/', titleY: 250, paintedOk: false,
-    assets: gAssets(['observe', 'load', 'mixing', 'search', 'mismatch', 'lost', 'win'],
-      [...SOCKS, 'p0', 'p1', 'p2', 'p3', 'p4', 'p5', 'p16', 'p30', 'p34', 'p51', 'p28']),
-    startBanner: '🧦 Remember your socks!', mote: '#dff6ff', rayColor: '#e6f6ff',
+    assets: gAssets(['observe', 'load', 'mixing', 'search', 'mismatch', 'lost', 'win'], [...SOCKS, 'p1', 'p2', 'p3', 'p4', 'p5', 'p51', 'p28']),
+    startBanner: 'ðŸ§¦ Remember your socks!', mote: '#dff6ff', rayColor: '#e6f6ff',
 
     setup(r) {
       const slots = spread(r.players.length);
@@ -27,21 +26,21 @@
 
     tick(r, t, te) {
       const f = activeFake(r, t), D = r.decoy, Wn = r.winner;
-      if (t > .4) cue('show', () => { r.banner = '👀 Look at everyone\'s socks…'; });
-      if (t > r.show) cue('load', () => { SFX.swoosh(); r.banner = '🌀 One sock each goes into the washer!'; });
-      if (t > r.show + 1) cue('mix', () => { r.banner = '🫧 Spin, spin, spin…'; });
+      if (t > .4) cue('show', () => { r.banner = 'ðŸ‘€ Look at everyone\'s socksâ€¦'; });
+      if (t > r.show) cue('load', () => { SFX.swoosh(); r.banner = 'ðŸŒ€ One sock each goes into the washer!'; });
+      if (t > r.show + 1) cue('mix', () => { r.banner = 'ðŸ«§ Spin, spin, spinâ€¦'; });
       if (te < 0 && t > r.show + 1 && Math.random() < .05) SFX.tone(70 + Math.random() * 30, .12, { type: 'sawtooth', vol: .04, lp: 300 });
-      if (f && te < 0) cue('fk' + f.at, () => { SFX.pop(); r.banner = '🧦 A sock flies towards ' + f.p.name + '…'; });
+      if (f && te < 0) cue('fk' + f.at, () => { SFX.pop(); r.banner = 'ðŸ§¦ A sock flies towards ' + f.p.name + 'â€¦'; });
       if (!r.plain) {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); SFX.pop(); r.banner = '🧦 A sock lands with ' + D.name + '!'; });
-        if (te > .7) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); r.banner = '❌ Same colour… wrong pattern!'; });
-        if (te > 1.2) cue('c', () => { CAM.shake(r, 10); SFX.boing(); r.banner = '🫨 The washer hiccups…'; });
-        if (te > 1.5) cue('d', () => { outcome('selected', Wn); SFX.wheee(); r.banner = '🧦 The lost sock shoots out of the sleeve!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); SFX.pop(); r.banner = 'ðŸ§¦ A sock lands with ' + D.name + '!'; });
+        if (te > .7) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); r.banner = 'âŒ Same colourâ€¦ wrong pattern!'; });
+        if (te > 1.2) cue('c', () => { CAM.shake(r, 10); SFX.boing(); r.banner = 'ðŸ«¨ The washer hiccupsâ€¦'; });
+        if (te > 1.5) cue('d', () => { outcome('selected', Wn); SFX.wheee(); r.banner = 'ðŸ§¦ The lost sock shoots out of the sleeve!'; });
       } else {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); SFX.pop(); r.banner = '🧦 Is it ' + (D || Wn).name + "'s sock?"; });
-        if (te > 1.2) cue('b', () => { outcome('selected', Wn); SFX.boing(); r.banner = '🧦 …no, it bounces on to its real owner!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); SFX.pop(); r.banner = 'ðŸ§¦ Is it ' + (D || Wn).name + "'s sock?"; });
+        if (te > 1.2) cue('b', () => { outcome('selected', Wn); SFX.boing(); r.banner = 'ðŸ§¦ â€¦no, it bounces on to its real owner!'; });
       }
-      if (te > 2.8) cue('match', () => { SFX.ding(); FX.sparkle(Wn.sx, Wn.sy - 120, 20); r.banner = '✨ A perfect match!'; });
+      if (te > 2.8) cue('match', () => { SFX.ding(); FX.sparkle(Wn.sx, Wn.sy - 120, 20); r.banner = 'âœ¨ A perfect match!'; });
     },
 
     render(r, t) {
@@ -97,7 +96,7 @@
       for (let i = 0; i < 3; i++) { const k = (t * .5 + i / 3) % 1; drawImg(SOCKS[(Math.floor(t * .5) + i) % 10], ...arc(mouth, [300 + i * 350, 200], k, 120), 40, { rot: t * 6 + i, alpha: 1 - k }); }
     },
     onFinish(r) { FX.bubbles(r.winner.sx, r.winner.sy - 100, 24, '#cfefff'); },
-    winBanner: r => '🧦 ' + r.winner.name + "'s sock found its partner!",
+    winBanner: r => 'ðŸ§¦ ' + r.winner.name + "'s sock found its partner!",
     winPos: r => ({ x: r.winner.sx, y: r.winner.sy - 120 })
   };
 })();

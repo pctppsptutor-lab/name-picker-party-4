@@ -1,4 +1,4 @@
-// Game 23 — Frog Lily Pad Jump
+﻿// Game 23 â€” Frog Lily Pad Jump
 // Ten frogs hop across a pond along rows of drifting lily pads; the frog that lands on the last golden pad is picked.
 // Twist: the first "golden pad" is really a turtle's shell and swims away; a dragonfly settles on another pad and shows the real winner.
 (() => {
@@ -17,8 +17,8 @@
 
   GAME_IMPL.g23 = {
     id: 'g23', title: 'Frog Lily Pad Jump', base: 'assets/g23/', titleY: 220, animals: true, paintedOk: false,
-    assets: gAssets(['idle', 'ready', 'jump', 'near', 'false', 'turtle', 'win'], [...PADS, 'p0', 'p1', 'p2', 'p8', 'p17', 'p18', 'p11', 'p12', 'p44', 'p45', 'p21']),
-    startBanner: '🐸 Hop, hop, hop!', mote: '#e8fff0', rayColor: '#fff2a8',
+    assets: gAssets(['idle', 'ready', 'jump', 'near', 'turtle', 'win'], [...PADS, 'p0', 'p1', 'p8', 'p17']),
+    startBanner: 'ðŸ¸ Hop, hop, hop!', mote: '#e8fff0', rayColor: '#fff2a8',
 
     setup(r) {
       const n = r.players.length, lanes = shuffle([...Array(n).keys()]);
@@ -43,16 +43,16 @@
       for (const p of r.players) { const h = hop(r, p, t); if (h.k > 0 && te < 0) cue('h' + p.ly + h.i, () => SFX.tone(400 + Math.random() * 200, .08, { type: 'triangle', vol: .05, to: 800 })); }
       if (te < -.25 && t > 1.3) {
         const lead = r.players.reduce((a, b) => hop(r, b, t).i > hop(r, a, t).i ? b : a);
-        if (lead !== r.leader && t - (r.leaderAt || 0) > .6) { r.leader = lead; r.leaderAt = t; r.banner = '🐸 Out in front: ' + lead.name; SFX.leader(); }
+        if (lead !== r.leader && t - (r.leaderAt || 0) > .6) { r.leader = lead; r.leaderAt = t; r.banner = 'ðŸ¸ Out in front: ' + lead.name; SFX.leader(); }
       }
       if (!r.plain) {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); SFX.splash(); r.banner = '🐸 ' + D.name + ' leaps for the golden pad…'; });
-        if (te > .8) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); FX.splash(GOLD[0], D.ly, 16); r.banner = '🐢 It\'s a turtle shell — and it swims away!'; });
-        if (te > 1.2) cue('c', () => { SFX.tone(2200, .5, { type: 'sine', vol: .05, vib: 60, vibRate: 40 }); r.banner = '🪰 A dragonfly lands on the real golden pad…'; });
-        if (te > 1.8) cue('d', () => { outcome('selected', Wn); SFX.wheee(); r.banner = '🐸 …and ' + Wn.name + ' jumps on!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); SFX.splash(); r.banner = 'ðŸ¸ ' + D.name + ' leaps for the golden padâ€¦'; });
+        if (te > .8) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); FX.splash(GOLD[0], D.ly, 16); r.banner = 'ðŸ¢ It\'s a turtle shell â€” and it swims away!'; });
+        if (te > 1.2) cue('c', () => { SFX.tone(2200, .5, { type: 'sine', vol: .05, vib: 60, vibRate: 40 }); r.banner = 'ðŸª° A dragonfly lands on the real golden padâ€¦'; });
+        if (te > 1.8) cue('d', () => { outcome('selected', Wn); SFX.wheee(); r.banner = 'ðŸ¸ â€¦and ' + Wn.name + ' jumps on!'; });
       } else {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = '🐸 ' + (D || Wn).name + ' is so close…'; });
-        if (te > 1.2) cue('d', () => { outcome('selected', Wn); SFX.boing(); r.banner = '🐸 …but ' + Wn.name + ' makes the big jump!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = 'ðŸ¸ ' + (D || Wn).name + ' is so closeâ€¦'; });
+        if (te > 1.2) cue('d', () => { outcome('selected', Wn); SFX.boing(); r.banner = 'ðŸ¸ â€¦but ' + Wn.name + ' makes the big jump!'; });
       }
       if (te > 2.7) cue('land', () => { SFX.splash(); FX.splash(...GOLD, 20); });
     },
@@ -98,7 +98,7 @@
       drawImg('p0', 1500, 260, 120, { anchor: 'bottom' });
     },
     onFinish() { FX.splash(GOLD[0], GOLD[1], 30); FX.sparkle(GOLD[0], GOLD[1] - 100, 30); },
-    winBanner: r => '👑 ' + r.winner.name + ' lands on the golden pad!',
+    winBanner: r => 'ðŸ‘‘ ' + r.winner.name + ' lands on the golden pad!',
     winPos: () => ({ x: GOLD[0], y: GOLD[1] - 90 })
   };
 })();

@@ -1,4 +1,4 @@
-// Game 20 — Mystery Box Cats
+﻿// Game 20 â€” Mystery Box Cats
 // Ten cats dash between ten cardboard boxes; when the bell rings they dive in, and the last box to pop open picks the player.
 // Twist: the first box only holds a sock puppet; a laser dot zips to another box and the real winning cat leaps out.
 (() => {
@@ -9,9 +9,8 @@
 
   GAME_IMPL.g20 = {
     id: 'g20', title: 'Mystery Box Cats', base: 'assets/g20/', titleY: 260, animals: true, paintedOk: false,
-    assets: gAssets(['idle', 'ready', 'jump', 'peek', 'false', 'puppet', 'win'],
-      [...new Set(BOX_IMG), 'p0', 'p17', 'p18', 'p20', 'p48', 'p24', 'p26', 'p43', 'p44']),
-    startBanner: '🐱 The cats are zooming around!', mote: '#fff1d6', rayColor: '#fff2a8',
+    assets: gAssets(['idle', 'ready', 'jump', 'peek', 'puppet', 'win'], [...new Set(BOX_IMG), 'p0', 'p20']),
+    startBanner: 'ðŸ± The cats are zooming around!', mote: '#fff1d6', rayColor: '#fff2a8',
 
     setup(r) {
       const slots = spread(r.players.length);
@@ -28,16 +27,16 @@
     tick(r, t, te) {
       const f = activeFake(r, t), D = r.decoy, Wn = r.winner;
       if (te < 0 && t < r.bell && Math.random() < .03) SFX.tone(700 + Math.random() * 300, .12, { type: 'triangle', vol: .04, to: 500 });   // meows
-      if (t > r.bell) cue('bell', () => { [0, .15, .3].forEach(d => SFX.tone(1568, .4, { vol: .12, delay: d })); SFX.swoosh(); r.banner = '🔔 Ding! Everyone into a box!'; });
-      if (f && te < 0) cue('fk' + f.at, () => { SFX.boing(); r.banner = '📦 ' + f.p.name + "'s box is wobbling…"; });
+      if (t > r.bell) cue('bell', () => { [0, .15, .3].forEach(d => SFX.tone(1568, .4, { vol: .12, delay: d })); SFX.swoosh(); r.banner = 'ðŸ”” Ding! Everyone into a box!'; });
+      if (f && te < 0) cue('fk' + f.at, () => { SFX.boing(); r.banner = 'ðŸ“¦ ' + f.p.name + "'s box is wobblingâ€¦"; });
       if (!r.plain) {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); SFX.pop(); r.banner = '📦 ' + D.name + "'s box pops open…"; });
-        if (te > .5) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); r.banner = '🧦 Only a sock puppet inside!'; });
-        if (te > 1.1) cue('c', () => { SFX.tone(1800, .6, { type: 'sine', vol: .06, to: 2400 }); r.banner = '🔴 A laser dot zips across the floor…'; });
-        if (te > 1.8) cue('d', () => { outcome('selected', Wn); SFX.pop(); SFX.wheee(); r.banner = '🐈 …and ' + Wn.name + ' leaps out after it!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); SFX.pop(); r.banner = 'ðŸ“¦ ' + D.name + "'s box pops openâ€¦"; });
+        if (te > .5) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); r.banner = 'ðŸ§¦ Only a sock puppet inside!'; });
+        if (te > 1.1) cue('c', () => { SFX.tone(1800, .6, { type: 'sine', vol: .06, to: 2400 }); r.banner = 'ðŸ”´ A laser dot zips across the floorâ€¦'; });
+        if (te > 1.8) cue('d', () => { outcome('selected', Wn); SFX.pop(); SFX.wheee(); r.banner = 'ðŸˆ â€¦and ' + Wn.name + ' leaps out after it!'; });
       } else {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = '📦 Which box will pop?'; });
-        if (te > 1.2) cue('d', () => { outcome('selected', Wn); SFX.pop(); r.banner = '🐈 POP! Out jumps ' + Wn.name + '!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = 'ðŸ“¦ Which box will pop?'; });
+        if (te > 1.2) cue('d', () => { outcome('selected', Wn); SFX.pop(); r.banner = 'ðŸˆ POP! Out jumps ' + Wn.name + '!'; });
       }
     },
 
@@ -82,7 +81,7 @@
       drawImg('p0', BOSS[0], BOSS[1], 170, { anchor: 'bottom' });
     },
     onFinish(r) { FX.sparkle(r.winner.bx, r.winner.by - 150, 34, ['#ff9fc4', '#ffd84a', '#ffffff']); },
-    winBanner: r => '🐈 ' + r.winner.name + ' pops out of the box!',
+    winBanner: r => 'ðŸˆ ' + r.winner.name + ' pops out of the box!',
     winPos: r => ({ x: r.winner.bx, y: r.winner.by - 140 })
   };
 })();
