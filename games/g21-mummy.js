@@ -1,4 +1,4 @@
-﻿// Game 21 â€” Toilet Paper Mummy (stage-by-stage transformation)
+// Game 21 — Toilet Paper Mummy (stage-by-stage transformation)
 // Ten students are wrapped up as paper mummies. A fan blows in three levels; each level unrolls more paper,
 // slowly revealing the colours and accessories of the one who is picked.
 // Twist: the first mummy to unwrap is just a costume broom; the toilet-roll mascot rolls across the stage, tugs the last strip and finishes the real winner's reveal.
@@ -20,7 +20,7 @@
   GAME_IMPL.g21 = {
     id: 'g21', title: 'Toilet Paper Mummy', base: 'assets/g21/', titleY: 260, paintedOk: false,
     assets: gAssets(['wrapped', 'fan1', 'fan2', 'near', 'false', 'pull', 'win'], ['p0', 'p7', 'p23', 'p37', 'p38', 'p43']),
-    startBanner: 'ðŸ§» Ten mystery mummiesâ€¦', mote: '#f6f2ff', rayColor: '#fff2a8',
+    startBanner: '🧻 Ten mystery mummies…', mote: '#f6f2ff', rayColor: '#fff2a8',
 
     setup(r) {
       const slots = spread(r.players.length);
@@ -32,17 +32,17 @@
 
     tick(r, t, te) {
       const f = activeFake(r, t), D = r.decoy, Wn = r.winner, L = this.level(r, t);
-      if (L > 0) cue('lv' + L, () => { SFX.swoosh(); r.banner = ['', 'ðŸŒ¬ï¸ Fan level 1 â€” the paper fluttersâ€¦', 'ðŸŒ¬ï¸ Fan level 2 â€” loose ends fly!', 'ðŸŒªï¸ Fan level 3 â€” FULL POWER!'][L]; });
+      if (L > 0) cue('lv' + L, () => { SFX.swoosh(); r.banner = ['', '🌬️ Fan level 1 — the paper flutters…', '🌬️ Fan level 2 — loose ends fly!', '🌪️ Fan level 3 — FULL POWER!'][L]; });
       if (te < 0 && L > 0 && Math.random() < .05 * L) SFX.noise(.15, { vol: .04 * L, f: 600, to: 1500, q: .6 });
-      if (f && te < 0) cue('fk' + f.at, () => { SFX.leader(); r.banner = 'ðŸ§» ' + f.p.name + "'s wrapping starts to slipâ€¦"; });
+      if (f && te < 0) cue('fk' + f.at, () => { SFX.leader(); r.banner = '🧻 ' + f.p.name + "'s wrapping starts to slip…"; });
       if (!r.plain) {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); r.banner = 'ðŸ§» ' + D.name + ' unravelsâ€¦'; });
-        if (te > .6) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); r.banner = 'ðŸ§¹ It\'s just a costume broom!'; });
-        if (te > 1.1) cue('c', () => { SFX.wheee(); r.banner = 'ðŸ§» The toilet roll mascot rolls across the stageâ€¦'; });
-        if (te > 1.8) cue('d', () => { outcome('selected', Wn); SFX.pop(); CAM.shake(r, 7); r.banner = 'âœ‚ï¸ â€¦and pulls the last strip from ' + Wn.name + '!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); r.banner = '🧻 ' + D.name + ' unravels…'; });
+        if (te > .6) cue('b', () => { outcome('wrong_turn', D); SFX.sadTrombone(); r.banner = '🧹 It\'s just a costume broom!'; });
+        if (te > 1.1) cue('c', () => { SFX.wheee(); r.banner = '🧻 The toilet roll mascot rolls across the stage…'; });
+        if (te > 1.8) cue('d', () => { outcome('selected', Wn); SFX.pop(); CAM.shake(r, 7); r.banner = '✂️ …and pulls the last strip from ' + Wn.name + '!'; });
       } else {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = 'ðŸ§» ' + (D || Wn).name + ' is nearly unwrappedâ€¦'; });
-        if (te > 1.3) cue('d', () => { outcome('selected', Wn); SFX.pop(); r.banner = 'ðŸŽ‰ The reveal isâ€¦ ' + Wn.name + '!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = '🧻 ' + (D || Wn).name + ' is nearly unwrapped…'; });
+        if (te > 1.3) cue('d', () => { outcome('selected', Wn); SFX.pop(); r.banner = '🎉 The reveal is… ' + Wn.name + '!'; });
       }
     },
 
@@ -82,7 +82,7 @@
       drawImg('p0', 800 + Math.sin(t * .7) * 600, 640, 80, { rot: t * 4 });
     },
     onFinish(r) { FX.sparkle(r.winner.sx, r.winner.sy - 150, 40, ['#ffd84a', '#ff9fc4', '#7cf7ff']); },
-    winBanner: r => 'ðŸŽ­ Ta-da! It\'s ' + r.winner.name + '!',
+    winBanner: r => '🎭 Ta-da! It\'s ' + r.winner.name + '!',
     winPos: r => ({ x: r.winner.sx, y: r.winner.sy - 130 })
   };
 })();

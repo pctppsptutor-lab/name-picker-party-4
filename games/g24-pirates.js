@@ -1,10 +1,10 @@
-﻿// Game 24 â€” Pirate Parcel Mix-Up (chain reaction)
+// Game 24 — Pirate Parcel Mix-Up (chain reaction)
 // Pirate students fire foam balls into an island machine; balls roll over barrels, a wooden bridge, a bell and a wheel
 // and open one of ten parcels.
 // Twist: the first chain opens a parcel with a fake spring; the parrot spins the spare wheel, swings the bridge and fires the real winning chain.
 (() => {
   const CANNON = [180, 260], BELL = [700, 230], WHEEL = [930, 420];
-  const PATH = [[230, 240], [380, 300], [520, 330], [650, 260], [700, 250], [800, 360], [930, 420], [1060, 440]];   // barrels â†’ bridge â†’ bell â†’ wheel
+  const PATH = [[230, 240], [380, 300], [520, 330], [650, 260], [700, 250], [800, 360], [930, 420], [1060, 440]];   // barrels → bridge → bell → wheel
   const PARCELS = [...Array(10).keys()].map(i => [1180 + (i % 2) * 150, 160 + Math.floor(i / 2) * 140]);
   const PIRATES = [...Array(10).keys()].map(i => [130 + i * 120, 850]);
   const BOXES = ['p5', 'p6', 'p7', 'p10', 'p11'];
@@ -33,7 +33,7 @@
   GAME_IMPL.g24 = {
     id: 'g24', title: 'Pirate Parcel Mix-Up', base: 'assets/g24/', titleY: 640, paintedOk: false,
     assets: gAssets(['aim', 'follow', 'chain', 'false', 'parrot', 'win'], [...BOXES, 'p8', 'p12', 'p14', 'parrot0', 'parrot1', 'parrot2', 'wheelset0']),
-    startBanner: 'ðŸ´â€â˜ ï¸ Load the foam cannon!', mote: '#fff2d0', rayColor: '#fff2a8',
+    startBanner: '🏴‍☠️ Load the foam cannon!', mote: '#fff2d0', rayColor: '#fff2a8',
 
     setup(r) {
       const parcels = shuffle([...Array(10).keys()]);
@@ -48,17 +48,17 @@
       for (const run of r.runs) {
         if (t > run.at) cue('f' + run.at, () => { SFX.noise(.3, { vol: .2, f: 300, to: 100 }); FX.smoke(...CANNON, 6, '#ffffff'); });
         if (t > run.at + run.dur * .55) cue('bell' + run.at, () => SFX.tone(1320, .3, { vol: .08 }));
-        if (t > run.at + run.dur) cue('in' + run.at, () => { SFX.boing(); r.banner = 'ðŸ“¦ ' + run.p.name + "'s parcel wobblesâ€¦ but stays shut!"; });
+        if (t > run.at + run.dur) cue('in' + run.at, () => { SFX.boing(); r.banner = '📦 ' + run.p.name + "'s parcel wobbles… but stays shut!"; });
       }
-      if (t > r.goldAt) cue('gold', () => { SFX.noise(.4, { vol: .3, f: 250, to: 90 }); CAM.shake(r, 6); r.banner = 'ðŸ’¥ BOOM! The big foam ball is away!'; });
+      if (t > r.goldAt) cue('gold', () => { SFX.noise(.4, { vol: .3, f: 250, to: 90 }); CAM.shake(r, 6); r.banner = '💥 BOOM! The big foam ball is away!'; });
       if (!r.plain) {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); r.banner = 'ðŸ“¦ It opens ' + D.name + "'s parcelâ€¦"; });
-        if (te > .5) cue('b', () => { outcome('wrong_turn', D); SFX.boing(); SFX.sadTrombone(); r.banner = 'ðŸŒ€ A FAKE spring pops out!'; });
-        if (te > 1) cue('c', () => { SFX.tone(800, .2, { type: 'square', vol: .06 }); SFX.tone(900, .2, { type: 'square', vol: .06, delay: .2 }); r.banner = 'ðŸ¦œ The parrot spins the spare wheel!'; });
-        if (te > 1.5) cue('d', () => { outcome('selected', Wn); SFX.swoosh(); r.banner = 'ðŸŒ‰ The bridge swings â€” the real chain rolls!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); r.banner = '📦 It opens ' + D.name + "'s parcel…"; });
+        if (te > .5) cue('b', () => { outcome('wrong_turn', D); SFX.boing(); SFX.sadTrombone(); r.banner = '🌀 A FAKE spring pops out!'; });
+        if (te > 1) cue('c', () => { SFX.tone(800, .2, { type: 'square', vol: .06 }); SFX.tone(900, .2, { type: 'square', vol: .06, delay: .2 }); r.banner = '🦜 The parrot spins the spare wheel!'; });
+        if (te > 1.5) cue('d', () => { outcome('selected', Wn); SFX.swoosh(); r.banner = '🌉 The bridge swings — the real chain rolls!'; });
       } else {
-        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = 'ðŸ“¦ Heading for ' + (D || Wn).name + "'s parcelâ€¦"; });
-        if (te > 1) cue('b', () => { outcome('selected', Wn); SFX.boing(); r.banner = 'âš™ï¸ The wheel turns it another way!'; });
+        if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = '📦 Heading for ' + (D || Wn).name + "'s parcel…"; });
+        if (te > 1) cue('b', () => { outcome('selected', Wn); SFX.boing(); r.banner = '⚙️ The wheel turns it another way!'; });
       }
       if (te > 2.9) cue('open', () => { SFX.ding(); SFX.sparkle(); FX.sparkle(...PARCELS[Wn.parcel], 30); });
     },
@@ -127,7 +127,7 @@
       PIRATES.forEach(([x2, y2], i) => charImg(i, 'aim', x2, y2, 120));
     },
     onFinish(r) { FX.coins(...PARCELS[r.winner.parcel], 24, PARCELS[r.winner.parcel][1] + 60); },
-    winBanner: r => 'ðŸŽ The treasure parcel is ' + r.winner.name + "'s!",
+    winBanner: r => '🎁 The treasure parcel is ' + r.winner.name + "'s!",
     winPos: () => ({ x: 900, y: 700 })
   };
 })();

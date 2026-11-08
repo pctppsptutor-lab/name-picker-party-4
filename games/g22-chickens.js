@@ -1,4 +1,4 @@
-﻿// Game 22 â€” Off-Beat Disco Chickens (music & copying moves)
+// Game 22 — Off-Beat Disco Chickens (music & copying moves)
 // Ten students in chicken suits watch a three-move disco routine, copy it on the beat, then freeze.
 // The dance floor checks wings, feet and the final pose; the spotlight picks the one who held it.
 // Twist: the first spotlight lands on a feathery mop doing the moves all wrong; the music replays the last beat and the right pose wins.
@@ -18,7 +18,7 @@
   GAME_IMPL.g22 = {
     id: 'g22', title: 'Off-Beat Disco Chickens', base: 'assets/g22/', titleY: 440, paintedOk: false,
     assets: gAssets(['watch', 'wing', 'side', 'freeze', 'mop', 'replay', 'win'], ['p0', 'p1', 'p3', 'p7', 'p8', 'p13', 'p31', 'p34', 'p46']),
-    startBanner: 'ðŸ” Watch the movesâ€¦ wing, side, FREEZE!', mote: '#ffe6f0', rayColor: '#fff2a8',
+    startBanner: '🐔 Watch the moves… wing, side, FREEZE!', mote: '#ffe6f0', rayColor: '#fff2a8',
 
     setup(r) {
       const slots = spread(r.players.length);
@@ -34,17 +34,17 @@
 
     tick(r, t, te) {
       const f = activeFake(r, t), D = r.decoy, Wn = r.winner, b = Math.floor(t / BEAT);
-      if (te < 0 && t > .6 && b !== r.lastBeat) { r.lastBeat = b; SFX.tone(b % 2 ? 196 : 262, .1, { type: 'square', vol: .06, lp: 1200 }); if (b % 6 === 0) r.banner = Math.floor(b / 6) % 2 ? 'ðŸ•º Copy it: wingâ€¦ sideâ€¦ wing!' : 'ðŸ‘€ Watch the DJ chickenâ€¦'; }
-      if (f && te < 0) cue('fk' + f.at, () => { r.banner = 'ðŸ”¦ The floor checks ' + f.p.name + "'s feetâ€¦"; SFX.leader(); });
-      if (te > 0) cue('stop', () => { Music.stop(); SFX.tone(240, .5, { type: 'sawtooth', vol: .1, to: 60, lp: 900 }); r.banner = 'ðŸ§Š FREEZE!'; });
+      if (te < 0 && t > .6 && b !== r.lastBeat) { r.lastBeat = b; SFX.tone(b % 2 ? 196 : 262, .1, { type: 'square', vol: .06, lp: 1200 }); if (b % 6 === 0) r.banner = Math.floor(b / 6) % 2 ? '🕺 Copy it: wing… side… wing!' : '👀 Watch the DJ chicken…'; }
+      if (f && te < 0) cue('fk' + f.at, () => { r.banner = '🔦 The floor checks ' + f.p.name + "'s feet…"; SFX.leader(); });
+      if (te > 0) cue('stop', () => { Music.stop(); SFX.tone(240, .5, { type: 'sawtooth', vol: .1, to: 60, lp: 900 }); r.banner = '🧊 FREEZE!'; });
       if (!r.plain) {
-        if (te > .4) cue('a', () => { outcome('almost_selected', D); SFX.sparkle(); r.banner = 'ðŸ”¦ The spotlight lands on ' + D.name + 'â€¦'; });
-        if (te > .9) cue('b', () => { outcome('wrong_turn', D); CAM.shake(r, 9); SFX.sadTrombone(); r.banner = 'ðŸ§¹ It\'s a feathery MOP doing it all wrong!'; });
-        if (te > 1.4) cue('c', () => { Music.play('tension'); [0, .24].forEach(d => SFX.tone(392, .2, { type: 'triangle', vol: .15, delay: d })); FX.ring(...BALL, '#ff6fae', 200); r.banner = 'ðŸŽµ The music replays the last beatâ€¦'; });
-        if (te > 1.8) cue('d', () => { outcome('selected', Wn); r.banner = 'ðŸ”¦ â€¦' + Wn.name + ' holds the perfect pose!'; });
+        if (te > .4) cue('a', () => { outcome('almost_selected', D); SFX.sparkle(); r.banner = '🔦 The spotlight lands on ' + D.name + '…'; });
+        if (te > .9) cue('b', () => { outcome('wrong_turn', D); CAM.shake(r, 9); SFX.sadTrombone(); r.banner = '🧹 It\'s a feathery MOP doing it all wrong!'; });
+        if (te > 1.4) cue('c', () => { Music.play('tension'); [0, .24].forEach(d => SFX.tone(392, .2, { type: 'triangle', vol: .15, delay: d })); FX.ring(...BALL, '#ff6fae', 200); r.banner = '🎵 The music replays the last beat…'; });
+        if (te > 1.8) cue('d', () => { outcome('selected', Wn); r.banner = '🔦 …' + Wn.name + ' holds the perfect pose!'; });
       } else {
-        if (te > .4) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = 'ðŸ”¦ Is it ' + (D || Wn).name + '?'; });
-        if (te > 1.1) cue('b', () => { outcome('selected', Wn); SFX.boing(); r.banner = 'ðŸ”¦ â€¦no! The light slides on!'; });
+        if (te > .4) cue('a', () => { Music.play('tension'); outcome('almost_selected', D || Wn); r.banner = '🔦 Is it ' + (D || Wn).name + '?'; });
+        if (te > 1.1) cue('b', () => { outcome('selected', Wn); SFX.boing(); r.banner = '🔦 …no! The light slides on!'; });
       }
     },
 
@@ -93,7 +93,7 @@
       SPOTS.forEach(([x, y], i) => charImg(i, Math.floor(t / BEAT) % 2 ? 'wing' : 'side', x, y, kidH(y)));
     },
     onFinish(r) { FX.sparkle(r.winner.sx, r.winner.sy - 150, 40, COLORS); },
-    winBanner: r => 'ðŸ” ' + r.winner.name + ' is the disco champion!',
+    winBanner: r => '🐔 ' + r.winner.name + ' is the disco champion!',
     winPos: r => ({ x: r.winner.sx, y: r.winner.sy - 130 })
   };
 })();
