@@ -9,7 +9,7 @@
 
   GAME_IMPL.g20 = {
     id: 'g20', title: 'Mystery Box Cats', base: 'assets/g20/', titleY: 260, animals: true, paintedOk: false,
-    assets: gAssets(['idle', 'ready', 'jump', 'peek', 'puppet', 'win'], [...new Set(BOX_IMG), 'p0', 'p17', 'p18', 'p20', 'p48', 'p24', 'p26', 'p43', 'p44']),
+    assets: gAssets(['idle', 'ready', 'jump', 'peek', 'puppet', 'win'], [...new Set(BOX_IMG), 'p0']),
     startBanner: '🐱 The cats are zooming around!', mote: '#fff1d6', rayColor: '#fff2a8',
 
     setup(r) {
