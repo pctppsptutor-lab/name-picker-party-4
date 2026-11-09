@@ -7,6 +7,19 @@
   const BOX_IMG = ['p1', 'p2', 'p4', 'p5', 'p9', 'p11', 'p12', 'p13', 'p16', 'p1'];
   const BOSS = [1440, 620];
 
+  function boxReveal(x, y, correct) {
+    ctx.save(); ctx.translate(x, y - 27);
+    ctx.strokeStyle = correct ? '#ffe27a' : '#ffc5d0';
+    ctx.fillStyle = correct ? '#8c5521' : '#914b49';
+    ctx.lineWidth = 4;
+    for (const side of [-1, 1]) {
+      ctx.save(); ctx.scale(side, 1); ctx.beginPath();
+      ctx.moveTo(8, -4); ctx.lineTo(57, -6); ctx.lineTo(88, -30); ctx.lineTo(43, -27);
+      ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
+    }
+    ctx.restore();
+  }
+
   GAME_IMPL.g20 = {
     id: 'g20', title: 'Mystery Box Cats', base: 'assets/g20/', titleY: 260, animals: true, paintedOk: false,
     assets: gAssets(['idle', 'ready', 'jump', 'peek', 'puppet', 'win'], [...new Set(BOX_IMG), 'p0']),
@@ -46,7 +59,9 @@
       for (const p of r.players) {
         const shake = (f && f.p === p && te < 0) || (te > 0 && p === (D || Wn) && te < (r.plain ? 1.2 : .5));
         drawImg(BOX_IMG[p.box], p.bx, p.by, 140, { anchor: 'bottom', rot: shake ? Math.sin(rt * 30) * .08 : 0 });
-        tagC(p.name, p.bx, p.by + 22, shake || (p === Wn && te > (r.plain ? 1.2 : 1.8)));
+        const winningBox = p === Wn && te > (r.plain ? 1.2 : 1.8);
+        if (winningBox || (!r.plain && p === D && te > .5 && !done)) boxReveal(p.bx, p.by, winningBox);
+        tagC(p.name, p.bx, p.by + 22, shake || winningBox);
       }
       const order = [...r.players].sort((a, b) => a.by - b.by);
       for (const p of order) {
@@ -58,7 +73,10 @@
         if (f && f.p === p && te < 0 && hide) { pose = 'peek'; h = 90; }
         if (p === D && te > 0 && !r.plain) { pose = te < .5 ? 'peek' : 'puppet'; h = 120; }
         if (p === Wn && te > (r.plain ? 1.2 : 1.8)) { const k = ease(clamp((te - (r.plain ? 1.2 : 1.8)) / .5)); pose = 'jump'; h = 130; y = p.by - 40 - Math.sin(k * Math.PI) * 100; }
-        if (h) charImg(p.av, pose, x, y, h);
+        if (pose === 'puppet' && !IMG['c' + p.av + '_puppet']) {
+          ctx.save(); ctx.font = '48px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('🧦', x, y - 22); ctx.restore();
+        } else if (h) charImg(p.av, pose, x, y, h);
         p.x = x; p.y = y;
         if (rt < r.bell && Math.random() < .2) FX.every(r, 'dust' + p.box, .3, () => FX.smoke(x, y, 1, '#f2e2c4'));
       }
