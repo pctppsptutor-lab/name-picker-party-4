@@ -1,4 +1,4 @@
-// Game 20 — Mystery Box Cats
+// Game 20 — Cat in a Box
 // Ten cats dash between ten cardboard boxes; when the bell rings they dive in, and the last box to pop open picks the player.
 // Twist: the first box only holds a sock puppet; a laser dot zips to another box and the real winning cat leaps out.
 (() => {
@@ -21,7 +21,7 @@
   }
 
   GAME_IMPL.g20 = {
-    id: 'g20', title: 'Mystery Box Cats', base: 'assets/g20/', titleY: 260, animals: true, paintedOk: false,
+    id: 'g20', title: 'Cat in a Box', base: 'assets/g20/', titleY: 260, animals: true, paintedOk: false,
     assets: gAssets(['idle', 'ready', 'jump', 'peek', 'puppet', 'win'], [...new Set(BOX_IMG), 'p0']),
     startBanner: '🐱 The cats are zooming around!', mote: '#fff1d6', rayColor: '#fff2a8',
 

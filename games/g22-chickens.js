@@ -1,4 +1,4 @@
-// Game 22 — Off-Beat Disco Chickens (music & copying moves)
+// Game 22 — Chicken Dance (music & copying moves)
 // Ten students in chicken suits watch a three-move disco routine, copy it on the beat, then freeze.
 // The dance floor checks wings, feet and the final pose; the spotlight picks the one who held it.
 // Twist: the first spotlight lands on a feathery mop doing the moves all wrong; the music replays the last beat and the right pose wins.
@@ -16,7 +16,7 @@
   }
 
   GAME_IMPL.g22 = {
-    id: 'g22', title: 'Off-Beat Disco Chickens', base: 'assets/g22/', titleY: 440, paintedOk: false,
+    id: 'g22', title: 'Chicken Dance', base: 'assets/g22/', titleY: 440, paintedOk: false,
     assets: gAssets(['watch', 'wing', 'side', 'freeze', 'mop', 'replay', 'win'], ['p0', 'p1', 'p3', 'p7', 'p8', 'p13', 'p31', 'p34', 'p46']),
     startBanner: '🐔 Watch the moves… wing, side, FREEZE!', mote: '#ffe6f0', rayColor: '#fff2a8',
 

@@ -1,4 +1,4 @@
-// Game 24 — Pirate Parcel Mix-Up (chain reaction)
+// Game 24 — Pirate Gift Boom (chain reaction)
 // Pirate students fire foam balls into an island machine; balls roll over barrels, a wooden bridge, a bell and a wheel
 // and open one of ten parcels.
 // Twist: the first chain opens a parcel with a fake spring; the parrot spins the spare wheel, swings the bridge and fires the real winning chain.
@@ -37,7 +37,7 @@
   }
 
   GAME_IMPL.g24 = {
-    id: 'g24', title: 'Pirate Parcel Mix-Up', base: 'assets/g24/', titleY: 640, paintedOk: false,
+    id: 'g24', title: 'Pirate Gift Boom', base: 'assets/g24/', titleY: 640, paintedOk: false,
     assets: gAssets(['aim', 'follow', 'chain', 'false', 'parrot', 'win'], [...BOXES, 'p12', 'p14', 'parrot0', 'parrot1', 'parrot2', 'wheelset0']),
     startBanner: '🏴‍☠️ Load the foam cannon!', mote: '#fff2d0', rayColor: '#fff2a8',
 

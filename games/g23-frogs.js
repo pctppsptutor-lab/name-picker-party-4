@@ -1,4 +1,4 @@
-// Game 23 — Frog Lily Pad Jump
+// Game 23 — Hop, Frog, Hop!
 // Ten frogs hop across a pond along rows of drifting lily pads; the frog that lands on the last golden pad is picked.
 // Twist: the first "golden pad" is really a turtle's shell and swims away; a dragonfly settles on another pad and shows the real winner.
 (() => {
@@ -16,7 +16,7 @@
   const padPos = (p, i, t) => [X0 + i * STEP + Math.sin(t * .8 + i + p.seed * 9) * 10, p.ly + Math.sin(t * 1.3 + i) * 4];
 
   GAME_IMPL.g23 = {
-    id: 'g23', title: 'Frog Lily Pad Jump', base: 'assets/g23/', titleY: 220, animals: true, paintedOk: false,
+    id: 'g23', title: 'Hop, Frog, Hop!', base: 'assets/g23/', titleY: 220, animals: true, paintedOk: false,
     assets: gAssets(['idle', 'ready', 'jump', 'near', 'turtle', 'win'], [...PADS, 'p0', 'p1', 'p8', 'p17']),
     startBanner: '🐸 Hop, hop, hop!', mote: '#e8fff0', rayColor: '#fff2a8',
 

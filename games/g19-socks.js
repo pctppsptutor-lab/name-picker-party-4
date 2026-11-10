@@ -1,4 +1,4 @@
-// Game 19 — Sock-Eating Washer (matching & memory)
+// Game 19 — The Sock Monster (matching & memory)
 // Everyone shows their pair of socks, drops one in the washing machine, and the machine mixes them up and spits them out.
 // The student whose missing sock flies back to them is picked.
 // Twist: the first sock back is the same colour but the wrong pattern; the lost sock bursts out of the machine's sleeve and matches the real winner.
@@ -13,7 +13,7 @@
   const arc = (a, b, k, lift) => [lerp(a[0], b[0], k), lerp(a[1], b[1], k) - Math.sin(k * Math.PI) * lift];
 
   GAME_IMPL.g19 = {
-    id: 'g19', title: 'Sock-Eating Washer', base: 'assets/g19/', titleY: 250, paintedOk: false,
+    id: 'g19', title: 'The Sock Monster', base: 'assets/g19/', titleY: 250, paintedOk: false,
     assets: gAssets(['observe', 'load', 'mixing', 'search', 'mismatch', 'lost', 'win'], [...SOCKS, 'p1', 'p2', 'p3', 'p4', 'p5', 'p51', 'p28']),
     startBanner: '🧦 Remember your socks!', mote: '#dff6ff', rayColor: '#e6f6ff',
 
