@@ -3,8 +3,8 @@
 // and open one of ten parcels.
 // Twist: the first chain opens a parcel with a fake spring; the parrot spins the spare wheel, swings the bridge and fires the real winning chain.
 (() => {
-  const CANNON = [180, 260], BELL = [700, 230], WHEEL = [930, 420];
-  const PATH = [[230, 240], [380, 300], [520, 330], [650, 260], [700, 250], [800, 360], [930, 420], [1060, 440]];   // barrels → bridge → bell → wheel
+  const CANNON = [230, 426], MUZZLE = [CANNON[0] + 39, CANNON[1] - 75], BELL = [700, 230], WHEEL = [930, 420];
+  const PATH = [MUZZLE, [330, 307], [470, 337], [650, 281], [700, 250], [800, 360], [930, 420], [1060, 440]];   // barrels → bridge → bell → wheel
   const PARCELS = [...Array(10).keys()].map(i => [1180 + (i % 2) * 150, 160 + Math.floor(i / 2) * 140]);
   const PIRATES = [...Array(10).keys()].map(i => [130 + i * 120, 850]);
   const BOXES = ['p5', 'p6', 'p7', 'p10', 'p11'];
@@ -24,6 +24,12 @@
     ctx.fillStyle = '#ffd84a'; ctx.beginPath(); ctx.arc(x, y - h - 10, 12, 0, Math.PI * 2); ctx.fill(); ctx.restore();
   }
   function machine(t, swing) {
+    // Supports fixed in the sand, with a pivot for the moving bridge.
+    ctx.save(); ctx.fillStyle = '#79502e';
+    ctx.fillRect(573, 300, 14, 87);
+    ctx.fillRect(731, 202, 14, 186);
+    ctx.fillRect(BELL[0] - 8, 202, 53, 10);
+    ctx.restore();
     // barrels, bridge and bell drawn in code on top of the base
     [[330, 330], [470, 360]].forEach(([x, y]) => { ctx.save(); ctx.fillStyle = '#a0703f'; roundRect(ctx, x - 30, y - 10, 60, 70, 12); ctx.fill(); ctx.fillStyle = '#7a4a24'; ctx.fillRect(x - 30, y + 8, 60, 6); ctx.fillRect(x - 30, y + 38, 60, 6); ctx.restore(); });
     ctx.save(); ctx.translate(580, 300); ctx.rotate(swing); ctx.fillStyle = '#c99561'; ctx.fillRect(-10, -6, 140, 14); for (let i = 0; i < 7; i++) { ctx.fillStyle = '#a0703f'; ctx.fillRect(i * 20 - 6, -6, 4, 14); } ctx.restore();
@@ -32,7 +38,7 @@
 
   GAME_IMPL.g24 = {
     id: 'g24', title: 'Pirate Parcel Mix-Up', base: 'assets/g24/', titleY: 640, paintedOk: false,
-    assets: gAssets(['aim', 'follow', 'chain', 'false', 'parrot', 'win'], [...BOXES, 'p8', 'p12', 'p14', 'parrot0', 'parrot1', 'parrot2', 'wheelset0']),
+    assets: gAssets(['aim', 'follow', 'chain', 'false', 'parrot', 'win'], [...BOXES, 'p12', 'p14', 'parrot0', 'parrot1', 'parrot2', 'wheelset0']),
     startBanner: '🏴‍☠️ Load the foam cannon!', mote: '#fff2d0', rayColor: '#fff2a8',
 
     setup(r) {
@@ -46,7 +52,7 @@
     tick(r, t, te) {
       const D = r.decoy, Wn = r.winner;
       for (const run of r.runs) {
-        if (t > run.at) cue('f' + run.at, () => { SFX.noise(.3, { vol: .2, f: 300, to: 100 }); FX.smoke(...CANNON, 6, '#ffffff'); });
+        if (t > run.at) cue('f' + run.at, () => { SFX.noise(.3, { vol: .2, f: 300, to: 100 }); FX.smoke(...MUZZLE, 6, '#ffffff'); });
         if (t > run.at + run.dur * .55) cue('bell' + run.at, () => SFX.tone(1320, .3, { vol: .08 }));
         if (t > run.at + run.dur) cue('in' + run.at, () => { SFX.boing(); r.banner = '📦 ' + run.p.name + "'s parcel wobbles… but stays shut!"; });
       }
@@ -81,12 +87,12 @@
       const rt = r.now, te = rt - r.TW, done = r.phase === 'done', D = r.decoy, Wn = r.winner;
       machine(rt, !r.plain && te > 1 && te < 2 ? Math.sin((te - 1) * Math.PI) * -.4 : 0);
       drawImg('wheelset0', WHEEL[0], WHEEL[1], 90, { rot: !r.plain && te > 1 ? (te - 1) * 6 : rt * .5 });
-      drawImg(te > 0 && rt - r.goldAt < .4 ? 'p8' : 'p12', CANNON[0], CANNON[1], 150);
+      drawImg('p12', ...CANNON, 150, { anchor: 'bottom' });
       for (const p of r.players) {
-        const [x, y] = PARCELS[p.parcel], open = (p === Wn && te > 2.9) || done, fake = !r.plain && p === D && te > .5;
+        const [x, y] = PARCELS[p.parcel], open = p === Wn && (te > 2.9 || done), fake = !done && !r.plain && p === D && te > .5;
         if (open) { FX.halo(x, y, 70, '#ffd84a', .6); drawImg('p14', x, y + 30, 100, { anchor: 'bottom' }); }
         else drawImg(BOXES[p.parcel % 5], x, y + 30, 80, { anchor: 'bottom', rot: (r.runs.some(run => run.p === p && rt > run.at + run.dur && rt < run.at + run.dur + .5) ? Math.sin(rt * 30) * .1 : 0) });
-        if (fake && !done) spring(x, y - 20, clamp((te - .5) / .2), rt);
+        if (fake) spring(x, y - 20, clamp((te - .5) / .2), rt);
         tagC(p.name, x + 78, y + 10, open || fake);
       }
       // practice balls
@@ -120,7 +126,7 @@
     idle(t) {
       machine(t, 0);
       drawImg('wheelset0', WHEEL[0], WHEEL[1], 90, { rot: t * .5 });
-      drawImg('p12', CANNON[0], CANNON[1], 150);
+      drawImg('p12', ...CANNON, 150, { anchor: 'bottom' });
       PARCELS.forEach(([x, y], i) => drawImg(BOXES[i % 5], x, y + 30, 80, { anchor: 'bottom' }));
       const k = (t * .4) % 1, [x, y] = along(toParcel(Math.floor(t * .4) % 10), k); ctx.save(); ctx.fillStyle = '#ff9f43'; ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.fill(); ctx.restore();
       drawImg(Math.floor(t * 5) % 2 ? 'parrot0' : 'parrot1', 880 + Math.sin(t * 1.5) * 190, 175 + Math.sin(t * 3) * 36, 100, { flip: Math.cos(t * 1.5) > 0 });

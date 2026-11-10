@@ -1,4 +1,4 @@
-const CACHE_NAME = 'name-picker-vol4-v21';
+const CACHE_NAME = 'name-picker-vol4-v23';
 const PRECACHE = [
   "./",
   "./index.html",
