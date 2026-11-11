@@ -1,0 +1,156 @@
+{
+  "bell": {
+    "source": "foley/bell_01.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 1.091,
+    "bytes": 9030
+  },
+  "box": {
+    "source": "foley/wooded_box_open.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.343,
+    "bytes": 3178
+  },
+  "bubble1": {
+    "source": "water/bubble_01.ogg",
+    "start": 0,
+    "maxDuration": 1.5,
+    "duration": 0.554,
+    "bytes": 4850
+  },
+  "bubble2": {
+    "source": "water/bubble_02.ogg",
+    "start": 0,
+    "maxDuration": 1.5,
+    "duration": 0.262,
+    "bytes": 2551
+  },
+  "cannon": {
+    "source": "foley/explosion.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.287,
+    "bytes": 2551
+  },
+  "chicken": {
+    "source": "chicken/Chicken Sound Effect.ogg",
+    "start": 0.1,
+    "maxDuration": 1.5,
+    "duration": 1.5,
+    "bytes": 12373
+  },
+  "clank2": {
+    "source": "foley/metal_04.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.457,
+    "bytes": 4014
+  },
+  "creak": {
+    "source": "foley/door_01.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 1.6,
+    "bytes": 13209
+  },
+  "door": {
+    "source": "foley/door_open.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.342,
+    "bytes": 3178
+  },
+  "frog1": {
+    "source": "frog1.mp3",
+    "start": 0,
+    "maxDuration": 1.4,
+    "duration": 1.167,
+    "bytes": 9657
+  },
+  "frog2": {
+    "source": "frog2.mp3",
+    "start": 0,
+    "maxDuration": 1,
+    "duration": 0.718,
+    "bytes": 6104
+  },
+  "glass": {
+    "source": "foley/glass_03.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.359,
+    "bytes": 3178
+  },
+  "meow": {
+    "source": "kitten.ogg",
+    "start": 0,
+    "maxDuration": 1.3,
+    "duration": 0.898,
+    "bytes": 7567
+  },
+  "motor2": {
+    "source": "foley/machine_02.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.526,
+    "bytes": 4641
+  },
+  "paddle": {
+    "source": "water/splash_09.ogg",
+    "start": 0,
+    "maxDuration": 1.5,
+    "duration": 0.213,
+    "bytes": 2133
+  },
+  "paper1": {
+    "source": "foley/paper_01.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.421,
+    "bytes": 3805
+  },
+  "paper2": {
+    "source": "foley/paper_02.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.548,
+    "bytes": 4641
+  },
+  "paper3": {
+    "source": "foley/paper_03.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.532,
+    "bytes": 4641
+  },
+  "splash1": {
+    "source": "water/splash_02.ogg",
+    "start": 0,
+    "maxDuration": 1.5,
+    "duration": 0.579,
+    "bytes": 5059
+  },
+  "splash2": {
+    "source": "water/splash_05.ogg",
+    "start": 0,
+    "maxDuration": 1.5,
+    "duration": 0.929,
+    "bytes": 7776
+  },
+  "spring": {
+    "source": "foley/spring_01.ogg",
+    "start": 0,
+    "maxDuration": 1.6,
+    "duration": 0.91,
+    "bytes": 7567
+  },
+  "water": {
+    "source": "water/loop_water_01.ogg",
+    "start": 0,
+    "maxDuration": 1.5,
+    "duration": 1.498,
+    "bytes": 12373
+  }
+}

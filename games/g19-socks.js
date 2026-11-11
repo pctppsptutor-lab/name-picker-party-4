@@ -13,7 +13,7 @@
   const arc = (a, b, k, lift) => [lerp(a[0], b[0], k), lerp(a[1], b[1], k) - Math.sin(k * Math.PI) * lift];
 
   GAME_IMPL.g19 = {
-    id: 'g19', title: 'The Sock Monster', base: 'assets/g19/', titleY: 250, paintedOk: false,
+    id: 'g19', title: 'The Sock Monster', base: 'assets/g19/', titleY: 250,
     assets: gAssets(['observe', 'load', 'mixing', 'search', 'mismatch', 'lost', 'win'], [...SOCKS, 'p1', 'p2', 'p3', 'p4', 'p5', 'p51', 'p28']),
     startBanner: '🧦 Remember your socks!', mote: '#dff6ff', rayColor: '#e6f6ff',
 
@@ -29,7 +29,7 @@
       if (t > .4) cue('show', () => { r.banner = '👀 Look at everyone\'s socks…'; });
       if (t > r.show) cue('load', () => { SFX.swoosh(); r.banner = '🌀 One sock each goes into the washer!'; });
       if (t > r.show + 1) cue('mix', () => { r.banner = '🫧 Spin, spin, spin…'; });
-      if (te < 0 && t > r.show + 1 && Math.random() < .05) SFX.tone(70 + Math.random() * 30, .12, { type: 'sawtooth', vol: .04, lp: 300 });
+
       if (f && te < 0) cue('fk' + f.at, () => { SFX.pop(); r.banner = '🧦 A sock flies towards ' + f.p.name + '…'; });
       if (!r.plain) {
         if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); SFX.pop(); r.banner = '🧦 A sock lands with ' + D.name + '!'; });

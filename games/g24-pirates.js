@@ -37,7 +37,7 @@
   }
 
   GAME_IMPL.g24 = {
-    id: 'g24', title: 'Pirate Gift Boom', base: 'assets/g24/', titleY: 640, paintedOk: false,
+    id: 'g24', title: 'Pirate Gift Boom', base: 'assets/g24/', titleY: 640,
     assets: gAssets(['aim', 'follow', 'chain', 'false', 'parrot', 'win'], [...BOXES, 'p12', 'p14', 'parrot0', 'parrot1', 'parrot2', 'wheelset0']),
     startBanner: '🏴‍☠️ Load the foam cannon!', mote: '#fff2d0', rayColor: '#fff2a8',
 
@@ -52,11 +52,11 @@
     tick(r, t, te) {
       const D = r.decoy, Wn = r.winner;
       for (const run of r.runs) {
-        if (t > run.at) cue('f' + run.at, () => { SFX.noise(.3, { vol: .2, f: 300, to: 100 }); FX.smoke(...MUZZLE, 6, '#ffffff'); });
+        if (t > run.at) cue('f' + run.at, () => {  FX.smoke(...MUZZLE, 6, '#ffffff'); });
         if (t > run.at + run.dur * .55) cue('bell' + run.at, () => SFX.tone(1320, .3, { vol: .08 }));
         if (t > run.at + run.dur) cue('in' + run.at, () => { SFX.boing(); r.banner = '📦 ' + run.p.name + "'s parcel wobbles… but stays shut!"; });
       }
-      if (t > r.goldAt) cue('gold', () => { SFX.noise(.4, { vol: .3, f: 250, to: 90 }); CAM.shake(r, 6); r.banner = '💥 BOOM! The big foam ball is away!'; });
+      if (t > r.goldAt) cue('gold', () => { CAM.shake(r, 6); r.banner = '💥 BOOM! The big foam ball is away!'; });
       if (!r.plain) {
         if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); r.banner = '📦 It opens ' + D.name + "'s parcel…"; });
         if (te > .5) cue('b', () => { outcome('wrong_turn', D); SFX.boing(); SFX.sadTrombone(); r.banner = '🌀 A FAKE spring pops out!'; });

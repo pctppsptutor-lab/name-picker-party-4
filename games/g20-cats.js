@@ -21,7 +21,7 @@
   }
 
   GAME_IMPL.g20 = {
-    id: 'g20', title: 'Cat in a Box', base: 'assets/g20/', titleY: 260, animals: true, paintedOk: false,
+    id: 'g20', title: 'Cat in a Box', base: 'assets/g20/', titleY: 260, animals: true,
     assets: gAssets(['idle', 'ready', 'jump', 'peek', 'puppet', 'win'], [...new Set(BOX_IMG), 'p0']),
     startBanner: '🐱 The cats are zooming around!', mote: '#fff1d6', rayColor: '#fff2a8',
 
@@ -39,7 +39,7 @@
 
     tick(r, t, te) {
       const f = activeFake(r, t), D = r.decoy, Wn = r.winner;
-      if (te < 0 && t < r.bell && Math.random() < .03) SFX.tone(700 + Math.random() * 300, .12, { type: 'triangle', vol: .04, to: 500 });   // meows
+
       if (t > r.bell) cue('bell', () => { [0, .15, .3].forEach(d => SFX.tone(1568, .4, { vol: .12, delay: d })); SFX.swoosh(); r.banner = '🔔 Ding! Everyone into a box!'; });
       if (f && te < 0) cue('fk' + f.at, () => { SFX.boing(); r.banner = '📦 ' + f.p.name + "'s box is wobbling…"; });
       if (!r.plain) {

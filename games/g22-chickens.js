@@ -16,7 +16,7 @@
   }
 
   GAME_IMPL.g22 = {
-    id: 'g22', title: 'Chicken Dance', base: 'assets/g22/', titleY: 440, paintedOk: false,
+    id: 'g22', title: 'Chicken Dance', base: 'assets/g22/', titleY: 440,
     assets: gAssets(['watch', 'wing', 'side', 'freeze', 'mop', 'replay', 'win'], ['p0', 'p1', 'p3', 'p7', 'p8', 'p13', 'p31', 'p34', 'p46']),
     startBanner: '🐔 Watch the moves… wing, side, FREEZE!', mote: '#ffe6f0', rayColor: '#fff2a8',
 

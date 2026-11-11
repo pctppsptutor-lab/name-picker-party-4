@@ -16,7 +16,7 @@
   const padPos = (p, i, t) => [X0 + i * STEP + Math.sin(t * .8 + i + p.seed * 9) * 10, p.ly + Math.sin(t * 1.3 + i) * 4];
 
   GAME_IMPL.g23 = {
-    id: 'g23', title: 'Hop, Frog, Hop!', base: 'assets/g23/', titleY: 220, animals: true, paintedOk: false,
+    id: 'g23', title: 'Hop, Frog, Hop!', base: 'assets/g23/', titleY: 220, animals: true,
     assets: gAssets(['idle', 'ready', 'jump', 'near', 'turtle', 'win'], [...PADS, 'p0', 'p1', 'p8', 'p17']),
     startBanner: '🐸 Hop, hop, hop!', mote: '#e8fff0', rayColor: '#fff2a8',
 

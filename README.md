@@ -16,3 +16,10 @@ From this folder run `python -m http.server 8768` and open http://localhost:8768
 | 24 Pirate Parcel Mix-Up | Foam cannonballs roll over barrels, a bridge, a bell and a wheel to open one of ten parcels. | The first parcel has a fake spring; the parrot spins the spare wheel and the real chain runs. |
 
 About one round in four has no twist. The winner is always chosen the moment you press Pick.
+
+
+## Sound effects
+
+Game-specific MP3 effects load only for the selected game and use the existing Sound toggle and SFX volume. Credits and edit details are in `assets/sfx/credits.html` and `assets/sfx/sources.json`.
+
+Run the dependency-free audio lifecycle checks with `node tests/sfx.test.cjs`.

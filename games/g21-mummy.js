@@ -18,7 +18,7 @@
   }
 
   GAME_IMPL.g21 = {
-    id: 'g21', title: 'Toilet Paper Mummy', base: 'assets/g21/', titleY: 260, paintedOk: false,
+    id: 'g21', title: 'Toilet Paper Mummy', base: 'assets/g21/', titleY: 260,
     assets: gAssets(['wrapped', 'fan1', 'fan2', 'near', 'false', 'pull', 'win'], ['p0', 'p7', 'p23', 'p37', 'p38', 'p43']),
     startBanner: '🧻 Ten mystery mummies…', mote: '#f6f2ff', rayColor: '#fff2a8',
 
@@ -33,7 +33,7 @@
     tick(r, t, te) {
       const f = activeFake(r, t), D = r.decoy, Wn = r.winner, L = this.level(r, t);
       if (L > 0) cue('lv' + L, () => { SFX.swoosh(); r.banner = ['', '🌬️ Fan level 1 — the paper flutters…', '🌬️ Fan level 2 — loose ends fly!', '🌪️ Fan level 3 — FULL POWER!'][L]; });
-      if (te < 0 && L > 0 && Math.random() < .05 * L) SFX.noise(.15, { vol: .04 * L, f: 600, to: 1500, q: .6 });
+
       if (f && te < 0) cue('fk' + f.at, () => { SFX.leader(); r.banner = '🧻 ' + f.p.name + "'s wrapping starts to slip…"; });
       if (!r.plain) {
         if (te > 0) cue('a', () => { Music.play('tension'); outcome('almost_selected', D); r.banner = '🧻 ' + D.name + ' unravels…'; });
