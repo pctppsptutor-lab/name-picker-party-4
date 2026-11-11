@@ -1,6 +1,6 @@
 # Name Picker Party 4
 
-Six more classroom name-picker mini-games (19–24), on the same engine and look as Name Picker Party 1–3. Local only for now.
+Six more classroom name-picker mini-games (19–24), on the same engine and look as Name Picker Party 1–3.
 
 ## How to run
 
@@ -15,7 +15,7 @@ From this folder run `python -m http.server 8768` and open http://localhost:8768
 | 23 Frog Lily Pad Jump | Frogs hop along rows of lily pads to the golden pad. | The first "golden pad" is a turtle shell that swims away; a dragonfly marks the real pad. |
 | 24 Pirate Parcel Mix-Up | Foam cannonballs roll over barrels, a bridge, a bell and a wheel to open one of ten parcels. | The first parcel has a fake spring; the parrot spins the spare wheel and the real chain runs. |
 
-About one round in four has no twist. The winner is always chosen the moment you press Pick.
+Rounds last 7 or 10 seconds. Plot Twist is off by default and can be enabled in Settings. The winner is chosen when you press Pick.
 
 
 ## Sound effects
@@ -25,3 +25,5 @@ Game-specific MP3 effects load only for the selected game and use the existing S
 Run the dependency-free audio lifecycle checks with `node tests/sfx.test.cjs`.
 
 Each game streams its own Kevin MacLeod BGM from `assets/bgm/` after a user gesture. Music credits and CC BY 4.0 sources are in `assets/bgm/credits.html`. Short action/result jingles retain VCSL samples; foreground effects briefly lower the music.
+
+Regression checks: `node tests/core.test.cjs` and `node tests/sw.test.cjs`. A BGM becomes available offline after that game’s track has loaded once.
