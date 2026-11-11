@@ -1,37 +1,7 @@
-# Name Picker Party 4
+# Name Picker Party — legacy Vol 4 URL
 
-Six more classroom name-picker mini-games (19–24), on the same engine and look as Name Picker Party 1–3.
+The 30-game app now lives in `pctppsptutor-lab/goi-ten-vui-nhon`, at https://pctppsptutor-lab.github.io/goi-ten-vui-nhon/GoiTenVuiNhon/.
 
-## How to run
+This public URL redirects to the corresponding game in the unified app and preserves game, class and hash parameters. `sw.js` redirects navigations only inside this old site’s scope; an open editor or round is left intact until the next navigation. It it does not change class lists or selection history in localStorage.
 
-From this folder run `python -m http.server 8768` and open http://localhost:8768/ in Chrome or Edge.
-
-| Game | How it works | Twist |
-|---|---|---|
-| 19 Sock-Eating Washer | Everyone shows a pair of socks, one goes into the washer, the machine spits socks back out. | The first sock back is the right colour but wrong pattern; the lost sock shoots out of the sleeve to the real owner. |
-| 20 Mystery Box Cats | Cats zoom around ten boxes, the bell rings and they dive in; the box that pops open picks the player. | The first box only holds a sock puppet; a laser dot zips to another box and the winning cat leaps out. |
-| 21 Toilet Paper Mummy | A fan blows in three levels, unwrapping the mummies bit by bit. | The first mummy is just a costume broom; the toilet-roll mascot rolls over and pulls the winner's last strip. |
-| 22 Off-Beat Disco Chickens | Watch the DJ chicken's routine, copy it on the beat, then freeze. | The spotlight finds a feathery mop doing it wrong; the music replays the last beat. |
-| 23 Frog Lily Pad Jump | Frogs hop along rows of lily pads to the golden pad. | The first "golden pad" is a turtle shell that swims away; a dragonfly marks the real pad. |
-| 24 Pirate Parcel Mix-Up | Foam cannonballs roll over barrels, a bridge, a bell and a wheel to open one of ten parcels. | The first parcel has a fake spring; the parrot spins the spare wheel and the real chain runs. |
-
-Rounds last 7 or 10 seconds. Plot Twist is off by default and can be enabled in Settings. The winner is chosen when you press Pick.
-
-
-## Sound effects
-
-Game-specific MP3 effects load only for the selected game and use the existing Sound toggle and SFX volume. Credits and edit details are in `assets/sfx/credits.html` and `assets/sfx/sources.json`.
-
-Run the dependency-free audio lifecycle checks with `node tests/sfx.test.cjs`.
-
-Each game streams its own Kevin MacLeod BGM from `assets/bgm/` after a user gesture. Music credits and CC BY 4.0 sources are in `assets/bgm/credits.html`. Short action/result jingles retain VCSL samples; foreground effects briefly lower the music.
-
-Regression checks: `node tests/core.test.cjs` and `node tests/sw.test.cjs`. A BGM becomes available offline after that game’s track has loaded once.
-
-## Build and loading
-
-Run `npm ci` then `npm run build` after editing HTML, game source, the service worker or assets. Commit the generated `games/dist/` files and `sw.js` together. `npm run check:build` checks that generated files and cache hashes match the source.
-
-The page loads one minified shared runtime; each game module loads when selected and can retry after a network error. Visited games remain available offline after their resources have been cached. A game not visited online yet needs a connection for its first load.
-
-Media cache versions depend on asset contents, so code-only updates retain images, music and fonts. An asset change creates a fresh media cache. The supplied logo uses lossless WebP; fonts are the same Google Fonts files hosted locally, with their OFL licenses in `assets/fonts/`.
+Run `npm run check:build` to validate the redirect. The previous game source and assets remain here during transition for rollback. Do not publish changes to that old app; development belongs in the main repository. An unvisited game needs an online first load at the new URL.
